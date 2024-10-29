@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using LaboratoriumASP.NET.Models;
 
-namespace Laboratorium1.Controllers;
+namespace LaboratoriumASP.NET.Controllers;
 
 public class HomeController : Controller
 {

@@ -1,26 +1,28 @@
 using LaboratoriumASP.NET.Models;
+using LaboratoriumASP.NET.Models.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaboratoriumASP.NET.Controllers
 {
-    public class Contact : Controller
+    public class ContactController : Controller
     {
-        static private Dictionary<int, ContactModel> _contacts = new Dictionary<int, ContactModel>()
+        private readonly IContactService _contactService;
+
+        public ContactController(IContactService contactService)
         {
-            { 1, new() { Id = 1, Email = "st@wsei.edu/pl", FirstName = "Adam", LastName = "Johnson", PhoneNumber = "1234 4321 5432 6789",} }
-        };
-        private static int currentId = 0;
+            _contactService = contactService;
+        }
         
         public ActionResult Index()
         {
-            return View(_contacts);
+            return View(_contactService.GetAll());
         }
-
+        
         public ActionResult Add()
         {
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult Add(ContactModel model)
         {
@@ -29,20 +31,60 @@ namespace LaboratoriumASP.NET.Controllers
                 return View(model);
             }
 
-            model.Id = ++currentId;
-            _contacts.Add(model.Id, model);
-            return View("Index", _contacts);
+            _contactService.Add(model);
+            return RedirectToAction(nameof(Index)); 
+        }
+        
+        public ActionResult Edit(int id)
+        {
+            var contact = _contactService.GetById(id);
+            if (contact == null)
+            {
+                return NotFound(); 
+            }
+            return View(contact);
         }
 
+       
+        [HttpPost]
+        public ActionResult Edit(ContactModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            _contactService.Update(model);
+            return RedirectToAction(nameof(Index)); 
+        }
+
+        
         public ActionResult Delete(int id)
         {
-            _contacts.Remove(id);
-            return View("Index", _contacts);
+            var contact = _contactService.GetById(id);
+            if (contact == null)
+            {
+                return NotFound(); 
+            }
+            return View(contact);
         }
-
+        
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _contactService.Delete(id);
+            return RedirectToAction(nameof(Index)); 
+        }
         public ActionResult Details(int id)
         {
-            return View(_contacts[id]);
+            var contact = _contactService.GetById(id);
+            if (contact == null)
+            {
+                return NotFound(); 
+            }
+            return View(contact);
         }
+
     }
 }

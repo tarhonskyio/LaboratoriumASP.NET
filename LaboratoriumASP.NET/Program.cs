@@ -1,3 +1,4 @@
+using LaboratoriumASP.NET.Models;
 using LaboratoriumASP.NET.Models.Services;
 
 namespace LaboratoriumASP.NET;
@@ -10,7 +11,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
-        builder.Services.AddSingleton<IContactService, MemoryContactService>();
+        builder.Services.AddDbContext<AppDbContext>();
+        builder.Services.AddTransient<IContactService, EFContactService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

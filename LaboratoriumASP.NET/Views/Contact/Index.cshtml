@@ -1,9 +1,9 @@
-﻿@using LaboratoriumASP.NET.Controllers
+﻿﻿@using LaboratoriumASP.NET.Controllers
 @model List<ContactModel>
 
 @{
-ViewBag.Title = "title";
-Layout = "_Layout";
+    ViewBag.Title = "title";
+    Layout = "_Layout";
 }
 
 <h2>Kontakty</h2>
@@ -12,48 +12,48 @@ Layout = "_Layout";
 @if (Model.Count > 0)
 {
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>@Html.DisplayNameFor(m =>m[0].FirstName)</th>
-        <th>@Html.DisplayNameFor(m =>m[0].LastName)</th>
-        <th>@Html.DisplayNameFor(m =>m[0].Category)</th>
-        <th>
-            Akcje
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var entry in @Model)
-    {
-    <tr>
-        <td>
-            @entry.FirstName
-        </td>
-        <td>
-            @entry.LastName
-        </td>
-        <td>@entry.Category</td>
-        <td>
-            <a class="btn btn-primary"
-               asp-action="Edit"
-               asp-controller="Contact"
-               asp-route-id=@entry.Id>Edytuj</a>
-            <a class="btn btn-primary"
-               asp-action="Details"
-               asp-controller="Contact"
-               asp-route-id=@entry.Id>Szczegóły</a>
-            <a class="btn btn-danger"
-               asp-action="Delete"
-               asp-controller="Contact"
-               asp-route-id=@entry.Id>Usuń</a>
-        </td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m =>m[0].FirstName)</th>
+            <th>@Html.DisplayNameFor(m =>m[0].LastName)</th>
+            <th>@Html.DisplayNameFor(m =>m[0].Category)</th> 
+            <th>
+                Akcje
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var entry in @Model)
+        {
+            <tr>
+                <td>
+                    @entry.FirstName
+                </td>
+                <td>
+                    @entry.LastName 
+                </td>
+                <td>@entry.Category</td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Edit"
+                       asp-controller="Contact"
+                       asp-route-id=@entry.Id>Edytuj</a>
+                    <a class="btn btn-primary"
+                       asp-action="Details"
+                       asp-controller="Contact"
+                       asp-route-id=@entry.Id>Szczegóły</a>
+                    <a class="btn btn-danger"
+                       asp-action="Delete"
+                       asp-controller="Contact"
+                       asp-route-id=@entry.Id>Usuń</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 else
 {
-<h1>Brak kontaktów...</h1>
+    <h1>Brak kontaktów...</h1>
 }
